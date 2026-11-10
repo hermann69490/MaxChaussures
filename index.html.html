@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MaxChaussures – Tapettes et claquettes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F5F1;
+      --surface: #FFFFFF;
+      --ink: #16213A;
+      --muted: #5E667A;
+      --gold: #B88A2E;
+      --gold-deep: #8F6A1C;
+      --gold-soft: #F1E6C8;
+      --line: #E3DFD3;
+      --promo: #B3362F;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #10151F;
+        --surface: #18202F;
+        --ink: #F2EFE6;
+        --muted: #A3AABB;
+        --gold: #D4A843;
+        --gold-deep: #E6C16A;
+        --gold-soft: #2B2616;
+        --line: #2A3347;
+        --promo: #E4736C;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: 'Figtree', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      line-height: 1.15
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px
+    }
+
+    .logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: .5px
+    }
+
+    .logo span {
+      color: var(--gold)
+    }
+
+    .cart-btn {
+      position: relative;
+      background: var(--ink);
+      color: var(--bg);
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 600
+    }
+
+    .cart-btn b {
+      background: var(--gold);
+      color: #1a1405;
+      border-radius: 999px;
+      padding: 1px 9px;
+      margin-left: 8px;
+      font-size: .85rem
+    }
+
+    .hero {
+      padding: 56px 20px 36px;
+      max-width: 1100px;
+      margin: auto
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 4.4rem);
+      max-width: 14ch
+    }
+
+    .hero p {
+      margin-top: 16px;
+      max-width: 46ch;
+      color: var(--muted);
+      font-size: 1.05rem
+    }
+
+    .hero .rule {
+      width: 84px;
+      height: 4px;
+      background: var(--gold);
+      margin-top: 24px;
+      border-radius: 2px
+    }
+
+    .filters {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .filters button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: background .2s, color .2s, border-color .2s
+    }
+
+    .filters button[aria-pressed="true"] {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #1a1405;
+      font-weight: 600
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 12px 20px 60px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      width: 100%
+    }
+
+    .card .pic {
+      position: relative;
+      aspect-ratio: 1/1;
+      display: grid;
+      place-items: center;
+      font-size: 5rem;
+      background: var(--gold-soft)
+    }
+
+    .card .body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .card h3 {
+      font-size: 1.1rem
+    }
+
+    .cat {
+      font-size: .85rem;
+      color: var(--muted)
+    }
+
+    .price {
+      font-weight: 600
+    }
+
+    .price s {
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 8px;
+      font-size: .9rem
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      color: #fff
+    }
+
+    .badge.new {
+      background: var(--ink);
+      color: var(--bg)
+    }
+
+    .badge.promo {
+      background: var(--promo);
+      left: auto;
+      right: 10px
+    }
+
+    /* Galerie Hommes */
+    .card .pic {
+      overflow: hidden
+    }
+
+    .card .pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .gallery {
+      margin-top: 48px
+    }
+
+    .gallery h2 {
+      font-size: 1.8rem
+    }
+
+    .gallery p {
+      color: var(--muted);
+      margin: 6px 0 18px
+    }
+
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 18px
+    }
+
+    .photos .card .pic {
+      padding: 0;
+      overflow: hidden;
+      font-size: 4rem
+    }
+
+    .photos .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s
+    }
+
+    .photos .card:hover img {
+      transform: scale(1.05)
+    }
+
+    .modal .pic.hasimg {
+      padding: 0;
+      min-height: 0;
+      overflow: hidden;
+      background: #0d111a;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal .pic img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
+      display: block;
+      cursor: zoom-in
+    }
+
+    @media(max-width:620px) {
+      .modal .pic img {
+        max-height: 55vh
+      }
+    }
+
+    /* Modal & lightbox */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 14, 24, .7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50
+    }
+
+    .overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: 16px;
+      max-width: 760px;
+      width: 100%;
+      max-height: 92vh;
+      overflow: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative
+    }
+
+    .modal .pic {
+      background: var(--gold-soft);
+      display: grid;
+      place-items: center;
+      font-size: 8rem;
+      min-height: 260px
+    }
+
+    .modal .info {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .modal h2 {
+      font-size: 1.6rem
+    }
+
+    .sizes {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .sizes button {
+      border: 1px solid var(--line);
+      background: transparent;
+      border-radius: 8px;
+      padding: 6px 12px
+    }
+
+    .sizes button[aria-pressed="true"] {
+      border-color: var(--gold);
+      background: var(--gold-soft);
+      font-weight: 600
+    }
+
+    .primary {
+      background: var(--gold);
+      color: #1a1405;
+      border: 0;
+      border-radius: 10px;
+      padding: 13px;
+      font-weight: 600;
+      margin-top: auto
+    }
+
+    .primary:hover {
+      background: var(--gold-deep);
+      color: #fff
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--bg);
+      font-size: 1.3rem;
+      z-index: 2
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 88vh;
+      border-radius: 10px
+    }
+
+    .lightbox .close {
+      position: fixed
+    }
+
+    .wa {
+      background: #1FA855;
+      color: #fff
+    }
+
+    .wa:hover {
+      background: #17863f;
+      color: #fff
+    }
+
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: 600
+    }
+
+    .drawer {
+      background: var(--surface);
+      width: min(420px, 100%);
+      max-height: 92vh;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: auto
+    }
+
+    .drawer h2 {
+      font-size: 1.5rem
+    }
+
+    .line {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px
+    }
+
+    .line .e {
+      font-size: 2rem
+    }
+
+    .line .t {
+      flex: 1
+    }
+
+    .line .t small {
+      color: var(--muted);
+      display: block
+    }
+
+    .line button {
+      border: 0;
+      background: transparent;
+      color: var(--promo);
+      font-weight: 600
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 1.1rem
+    }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 20px 0
+    }
+
+    @media(max-width:620px) {
+      .modal {
+        grid-template-columns: 1fr
+      }
+
+      .modal .pic {
+        font-size: 6rem;
+        min-height: 200px
+      }
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translate(-50%, 30px);
+      background: var(--ink);
+      color: var(--bg);
+      padding: 12px 22px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 80;
+      font-weight: 500
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0)
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      * {
+        transition: none !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Max<span>Chaussures</span></div>
+    <button class="cart-btn" id="cartBtn" aria-label="Panier">Panier <b id="count">0</b></button>
+  </header>
+
+  <section class="hero">
+    <h1>Des tapettes qui ont de la allure.</h1>
+    <p>Femmes, hommes, enfants : choisissez votre paire, payez en FCFA, soyez livré chez vous.</p>
+    <div class="rule"></div>
+  </section>
+
+  <nav class="filters" id="filters" aria-label="Filtres"></nav>
+
+  <main>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer>© 2026 MaxChaussures. Commande par WhatsApp, paiement et livraison en FCFA.</footer>
+
+  <div class="overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="modal">
+      <button class="close" id="mClose" aria-label="Fermer">×</button>
+      <div class="pic" id="mPic"></div>
+      <div class="info">
+        <span class="cat" id="mCat"></span>
+        <h2 id="mTitle"></h2>
+        <div class="price" id="mPrice"></div>
+        <p id="mDesc" style="color:var(--muted)"></p>
+        <div>
+          <div class="cat" style="margin-bottom:6px">Pointure</div>
+          <div class="sizes" id="mSizes"></div>
+        </div>
+        <button class="primary" id="mAdd">Ajouter au panier</button>
+        <button class="primary wa" id="mWa" style="margin-top:0">Commander par WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay lightbox" id="lbOverlay" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+    <button class="close" id="lbClose" aria-label="Fermer">×</button>
+    <img id="lbImg" alt="">
+  </div>
+
+  <div class="overlay" id="cartOverlay" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+    <div class="drawer">
+      <button class="close" id="cClose" aria-label="Fermer">×</button>
+      <h2 id="cTitle">Votre panier</h2>
+      <div id="cLines"></div>
+      <div class="total" id="cTotal"></div>
+      <button class="primary wa" id="cWa" style="margin-top:0">Commander par WhatsApp</button>
+      <button class="ghost" id="cClear">Vider le panier</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const PRODUCTS = [
+      { id: 1, name: "Sandale Dorée Élégance", cat: "Femmes", emoji: "👡", price: 8500, tag: "new", desc: "Sandale fine à brides dorées, semelle souple. Parfaite pour les sorties et les cérémonies légères.", sizes: [36, 37, 38, 39, 40] },
+      { id: 2, name: "Tapette Plage Classique", cat: "Hommes", emoji: "👡", price: 3500, desc: "La tapette de tous les jours : légère, antidérapante et facile à nettoyer.", sizes: [40, 41, 42, 43, 44, 45] },
+      { id: 3, name: "Claquette Sport Pro", cat: "Hommes", emoji: "👡", price: 6000, old: 7500, promo: true, desc: "Claquette sport à semelle amortissante, idéale après l'entraînement.", sizes: [40, 41, 42, 43, 44, 45] },
+      { id: 4, name: "Tapette Fleurie", cat: "Femmes", emoji: "👡", price: 4000, old: 5000, promo: true, desc: "Tapette colorée à motifs floraux, très confortable pour l'été.", sizes: [36, 37, 38, 39, 40] },
+      { id: 5, name: "Mules Confort Femme", cat: "Femmes", emoji: "👡", price: 9500, tag: "new", desc: "Mules à talon plat et dessus rembourré. Confort toute la journée.", sizes: [36, 37, 38, 39, 40, 41] },
+      { id: 6, name: "Tapette Mini Fun", cat: "Enfants", emoji: "👡", price: 2500, desc: "Tapette souple pour enfants, bords arrondis et semelle antidérapante.", sizes: [26, 28, 30, 32, 34] },
+      { id: 7, name: "Claquette Cuir Homme", cat: "Hommes", emoji: "👞", price: 12000, tag: "new", desc: "Claquette en cuir véritable, semelle ergonomique. Un style sobre et durable.", sizes: [41, 42, 43, 44, 45] },
+      { id: 8, name: "Sandale Arc-en-ciel", cat: "Enfants", emoji: "👡", price: 3000, old: 4000, promo: true, desc: "Sandale enfant aux couleurs vives avec fermeture à scratch.", sizes: [26, 28, 30, 32, 34] },
+      { id: 9, name: "Tapette Spa Unisexe", cat: "Femmes", emoji: "👡", price: 5500, desc: "Tapette épaisse et douce, adaptée à la maison, au spa et à la piscine.", sizes: [36, 38, 40, 42, 44] }
+    ];
+    const FILTERS = ["Tous", "Femmes", "Hommes", "Enfants", "Promotions"];
+    const fmt = n => n.toLocaleString("fr-FR").replace(/\u202f/g, " ") + " FCFA";
+
+    const WA_NUMBER = "2290159470295";
+    const SHOP = "MaxChaussures";
+    let active = "Tous", cart = [], current = null, size = null, lastFocus = null;
+    const $ = id => document.getElementById(id);
+
+    /* Filtres */
+    function renderFilters() {
+      $("filters").innerHTML = "";
+      FILTERS.forEach(f => {
+        const b = document.createElement("button");
+        b.textContent = f;
+        b.setAttribute("aria-pressed", f === active);
+        b.onclick = () => { active = f; renderFilters(); renderGrid(); };
+        $("filters").appendChild(b);
+      });
+    }
+
+    /* Produits */
+    /* ===== PHOTOS HOMMES =====
+       TOTAL_HOMMES : nombre maximum de photos (photoh1.jpg ... photoh250.jpg).
+       Les photos absentes du dossier sont simplement cachées.
+       PRIX_DEFAUT / NOM_DEFAUT : utilisés pour les photos qui ne sont pas dans la liste ci-dessous.
+       Pour donner un nom/prix précis à une photo, ajoutez une ligne dans MEN_PHOTOS :
+          ["Nom", prix]  |  promo : ["Nom", prix, ancienPrix]  |  nouveau : ["Nom", prix, null, "new"]
+       L'ordre de la liste = photoh1, photoh2, photoh3... */
+    const TOTAL_HOMMES = 250
+    const PRIX_DEFAUT = 10000;
+    const NOM_DEFAUT = "Modèle Homme";
+    const MEN_PHOTOS = [
+      ["Sandale Océan", 13000], ["Sandale croisée classique", 15000], ["Max Elégance", 15000, null, "new"], ["Claquette bouclée din", 9000],
+      ["Claquette DG din", 13000], ["Claquette kif", 9000], ["Modele Hermes cuir1", 7000, null, "new"], ["Sandale Aventure", 9500, 11000],
+      ["Max aventure", 12000], ["Claquette bouclée croco ", 8000, null, "new"], ["Kito Hermes Sport", 12000], ["Claquette Urbaine blanche", 8500],
+      ["Claquette tissée plus", 7500], ["Claquette X marron", 8000, 9000], ["Babouche Kito din", 15000], ["Babouche Kito din", 15000], ["Sandale rider confort", 13000],
+      ["Sandale croco", 7000], ["Claquette pom pom plate", 8500], ["Sandale croisé miroi confort", 13000], ["Sandale croisé miroi confort", 13000, null, "new"],
+      ["Modele Hermes Tissé", 8000], ["Sandale croisée classique", 15000], ["Modele Hermes croco", 8000, null, "new"], ["sandale Vani 1", 13500],
+      ["Modele Hermes cuir confort", 10000], ["Sandale Vani 2", 13500], ["Sandale Vani bouré 1", 12000, null, "new"], ["Modele Kif tissé", 8500, 10000],
+      ["Sandale Maxi", 8500], ["Sandale Vani 3 ", 13500, null, "new"], ["Sandale Vani 4", 13500], ["Sandala Vani 5", 13500],
+      ["Modele RID Confort", 13000], ["Sandale Tapette", 8000], ["Sandale Tapette", 8000, null, "new"], ["Sandale CCC 1", 8000],
+      ["Sandale Océan", 13000], ["Sandale croisée classique", 15000], ["Tapette bouclée", 8000, null, "new"], ["Vani sandale ", 13000],
+      9000, 8000, 9000, 8000, 12000, 8000, 8000, 13000, 9000, 9000, 12000, 1200, 8000, 9000, 9000, 12000, 7000, 13000, 9000, 9000, 9000, 9000, 8000, 10000, 9000, 12000, 12000, 9000, 10000, 9000, 13000, 12000, 7000, 7000, 12000, 12000, 12000, 9000, 9000, 15000, 9000,
+      7000, 12000, 13000, 12000, 12000, 9000, 9000, 9000, 11000, 11000, 10000, 12000, 9000, 13000, 9000, 9000, 13000, 13000, 8000, 7000, 10000, 8000, 9000, 15000, 15000, 20000,
+      8000, 13000, 8000, 9000, 12000, 9000, 8000, 8000, 9000, 10000, 9000, 10000,
+      8000, 12000, 13000, 10000, 14000, 9000, 14000, 13000, 10000, 8000, 8000, 9000, 8000, 8000,
+      10000, 10000, 10000, 9000, 12000, 9000, 15000, 8000, 18000, 7000, 8000, 9000, 9000, 9000,
+      7000, 8000, 13000, 7000, 13000, 8000, 15000, 8000, 15000, 7000, 14000, 7000, 12000, 12000, 12000, 10000, 10000, 8000,
+      8000, 9000, 8000, 9000, 15000, 10000, 9000, 7000, 10000, 8000, 7000, 8000, 7000, 7000, 7000, 10000, 8000, 8000,
+      8000, 10000, 11000, 9000, 8000, 7000, 7000, 8000, 8000, 7000, 8000, 10000, 8000, 9000, 8000, 9000, 8000, 9000, 14000, 9000, 8000, 9000, 9000, 9000, 15000, 9000, 9000, 8000,
+      7000, 8000, 8000, 8000, 10000, 12000, 9000, 7000,
+    ];
+
+    /* Lit une ligne de liste : accepte un prix seul (7000), [null, prix], ou ["Nom", prix, ancienPrix, "new"] */
+    function lire(entry, k, nomDefaut, prixDefaut) {
+      if (typeof entry === "number") return [`${nomDefaut} ${k + 1}`, entry];
+      if (Array.isArray(entry)) return [entry[0] ?? `${nomDefaut} ${k + 1}`, entry[1] ?? prixDefaut, entry[2], entry[3]];
+      return [`${nomDefaut} ${k + 1}`, prixDefaut];
+    }
+    const MEN_ITEMS = Array.from({ length: TOTAL_HOMMES }, (_, k) => {
+      const [name, price, old, tag] = lire(MEN_PHOTOS[k], k, NOM_DEFAUT, PRIX_DEFAUT);
+      return {
+        id: 101 + k, name, cat: "Hommes", emoji: "👡", price, old, promo: !!old, tag, img: `photoh${k + 1}.jpg`, hideIfMissing: true,
+        desc: `${name} : modèle homme de la collection MaxChaussures, confortable et résistant.`,
+        sizes: [40, 41, 42, 43, 44, 45]
+      };
+    });
+    /* ===== PHOTOS FEMMES =====
+       Photos : photof1.jpg, photof2.jpg ... jusqu'à photof100.jpg (même dossier que index.html).
+       Même principe que pour les hommes : ajoutez des lignes dans FEM_PHOTOS pour un nom/prix précis,
+       les autres photos reçoivent le nom et le prix par défaut. L'ordre de la liste = photof1, photof2... */
+    const TOTAL_FEMMES = 100;
+    const PRIX_DEFAUT_F = 5000;
+    const NOM_DEFAUT_F = "Modèle Femme";
+    const FEM_PHOTOS = [
+      ["Sandale Dorée Chic", 6000, null, "new"], ["Tapette Fleurie Été", 6000], ["Mules Confort Rose", 6000], ["Claquette Perle", 6000],
+      ["Sandale Brides Fines", 7500], ["Tapette Spa Douce", 6500], ["Sandale Plateforme", 7000, null, "new"], ["Mule Élégance", 7000, 8000],
+      6000, 7000, 6000, 7000,
+      7000, 7000, 10000, 6000,
+      6000, 8000, 8000, 7000,
+      6000, 7000, 8000, 10000,
+      8000, 6000, 10000, 8000,
+      12000, 7000, 7000, 12000,
+      12000, 8000, 8000, 7000,
+      8000, 8000, 8000, 8000,
+      7000, 7000, 7000, 7000,
+      8000, 7000, 8000,
+
+    ];
+    const FEM_ITEMS = Array.from({ length: TOTAL_FEMMES }, (_, k) => {
+      const [name, price, old, tag] = lire(FEM_PHOTOS[k], k, NOM_DEFAUT_F, PRIX_DEFAUT_F);
+      return {
+        id: 301 + k, name, cat: "Femmes", emoji: "👡", price, old, promo: !!old, tag, img: `photof${k + 1}.jpg`, hideIfMissing: true,
+        desc: `${name} : modèle femme de la collection MaxChaussures, élégant et confortable.`,
+        sizes: [36, 37, 38, 39, 40, 41]
+      };
+    });
+    /* ===== PHOTOS ENFANTS =====
+       Photos : photoe1.jpg, photoe2.jpg ... jusqu'à photoe100.jpg (même dossier que index.html). */
+    const TOTAL_ENFANTS = 100;
+    const PRIX_DEFAUT_E = 3000;
+    const NOM_DEFAUT_E = "Modèle Enfant";
+    const ENF_PHOTOS = [
+      ["Tapette Mini Fun", 10000], ["Sandale Arc-en-ciel", 8000, 9000], ["Claquette Junior", 8000, null, "new"],
+      10000, 5000, 5000, 8000, 5000, 6000,
+    ];
+    const ENF_ITEMS = Array.from({ length: TOTAL_ENFANTS }, (_, k) => {
+      const [name, price, old, tag] = lire(ENF_PHOTOS[k], k, NOM_DEFAUT_E, PRIX_DEFAUT_E);
+      return {
+        id: 501 + k, name, cat: "Enfants", emoji: "👡", price, old, promo: !!old, tag, img: `photoe${k + 1}.jpg`, hideIfMissing: true,
+        desc: `${name} : modèle enfant de la collection MaxChaussures, souple et résistant.`,
+        sizes: [26, 28, 30, 32, 34]
+      };
+    });
+    const ALL = MEN_ITEMS.concat(FEM_ITEMS, ENF_ITEMS);
+
+    function makeCard(p) {
+      const c = document.createElement("button");
+      c.className = "card";
+      c.innerHTML = `<div class="pic">
+      ${p.tag === "new" ? '<span class="badge new">Nouveau</span>' : ''}
+      ${p.promo ? '<span class="badge promo">Promo</span>' : ''}</div>
+    <div class="body"><span class="cat">${p.cat}</span><h3>${p.name}</h3>
+    <div class="price">${fmt(p.price)}${p.old ? `<s>${fmt(p.old)}</s>` : ''}</div></div>`;
+      const pic = c.querySelector(".pic");
+      if (p.img) {
+        const img = new Image();
+        img.src = p.img; img.alt = p.name; img.loading = "lazy";
+        img.onerror = () => { if (p.hideIfMissing) { c.remove(); return; } img.remove(); pic.insertAdjacentText("afterbegin", p.emoji); };
+        pic.prepend(img);
+      } else {
+        pic.insertAdjacentText("afterbegin", p.emoji);
+      }
+      c.onclick = () => openModal(p);
+      return c;
+    }
+
+    function renderGrid() {
+      const list = ALL.filter(p => active === "Tous" || (active === "Promotions" ? p.promo : p.cat === active));
+      const grid = $("grid");
+      grid.innerHTML = "";
+      list.forEach(p => grid.appendChild(makeCard(p)));
+    }
+
+    /* Modal produit */
+    function openModal(p) {
+      current = p; size = null; lastFocus = document.activeElement;
+      const mp = $("mPic");
+      mp.className = "pic"; mp.textContent = p.emoji;
+      if (p.img) {
+        const im = new Image(); im.src = p.img; im.alt = p.name;
+        im.onload = () => { mp.textContent = ""; mp.classList.add("hasimg"); mp.appendChild(im); };
+        im.onclick = () => openLightbox(im.src, im.alt);
+      }
+      $("mCat").textContent = p.cat;
+      $("mTitle").textContent = p.name;
+      $("mPrice").innerHTML = fmt(p.price) + (p.old ? ` <s style="color:var(--muted);font-weight:400">${fmt(p.old)}</s>` : "");
+      $("mDesc").textContent = p.desc;
+      $("mSizes").innerHTML = "";
+      p.sizes.forEach(s => {
+        const b = document.createElement("button");
+        b.textContent = s; b.setAttribute("aria-pressed", "false");
+        b.onclick = () => { size = s;[...$("mSizes").children].forEach(x => x.setAttribute("aria-pressed", x === b)); };
+        $("mSizes").appendChild(b);
+      });
+      $("modalOverlay").classList.add("open");
+      $("mClose").focus();
+    }
+    function closeAll() {
+      $("modalOverlay").classList.remove("open");
+      $("lbOverlay").classList.remove("open");
+      $("cartOverlay").classList.remove("open");
+      if (lastFocus) lastFocus.focus();
+    }
+    function openLightbox(src, alt) {
+      lastFocus = document.activeElement;
+      $("lbImg").src = src; $("lbImg").alt = alt;
+      $("lbOverlay").classList.add("open");
+      $("lbClose").focus();
+    }
+
+    /* Panier */
+    let toastTimer;
+    function toast(msg) {
+      const t = $("toast"); t.textContent = msg; t.classList.add("show");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+    }
+    function sendWhatsApp(items) {
+      const total = items.reduce((t, i) => t + i.price, 0);
+      const photoUrl = f => f ? new URL(f, location.href).href : "";
+      const lignes = items.map((i, n) => `${n + 1}. ${i.name} - pointure ${i.size} - ${fmt(i.price)}` + (i.img ? `\nPhoto : ${photoUrl(i.img)}` : "")).join("\n\n");
+      const msg = `Bonjour ${SHOP}, je souhaite commander :\n${lignes}\n\nTotal : ${fmt(total)}\n\nMerci de me confirmer la disponibilité et la livraison.`;
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+    }
+    function updateCount() { $("count").textContent = cart.length; }
+    function addCurrent() {
+      if (!size) { toast("Choisissez une pointure"); return false; }
+      cart.push({ name: current.name, emoji: current.emoji, price: current.price, size, img: current.img });
+      updateCount(); return true;
+    }
+    $("mAdd").onclick = () => {
+      if (addCurrent()) { toast(`${current.name} (pointure ${size}) ajouté au panier`); closeAll(); }
+    };
+    $("mWa").onclick = () => {
+      if (!size) { toast("Choisissez une pointure"); return; }
+      sendWhatsApp([{ name: current.name, price: current.price, size, img: current.img }]);
+    };
+
+    /* Panier */
+    function renderCart() {
+      const box = $("cLines");
+      box.innerHTML = "";
+      if (!cart.length) {
+        box.innerHTML = '<p class="empty">Votre panier est vide.</p>';
+        $("cTotal").textContent = ""; $("cWa").hidden = true; $("cClear").hidden = true; return;
+      }
+      $("cWa").hidden = false; $("cClear").hidden = false;
+      cart.forEach((it, idx) => {
+        const d = document.createElement("div");
+        d.className = "line";
+        d.innerHTML = `<div class="e" aria-hidden="true">${it.emoji}</div>
+      <div class="t">${it.name}<small>Pointure ${it.size} · ${fmt(it.price)}</small></div>`;
+        const r = document.createElement("button");
+        r.textContent = "Retirer";
+        r.onclick = () => { cart.splice(idx, 1); updateCount(); renderCart(); };
+        d.appendChild(r);
+        box.appendChild(d);
+      });
+      const total = cart.reduce((t, i) => t + i.price, 0);
+      $("cTotal").innerHTML = `<span>Total</span><span>${fmt(total)}</span>`;
+    }
+    $("cartBtn").onclick = () => { lastFocus = document.activeElement; renderCart(); $("cartOverlay").classList.add("open"); $("cClose").focus(); };
+    $("cClose").onclick = closeAll;
+    $("cWa").onclick = () => sendWhatsApp(cart);
+    $("cClear").onclick = () => { cart = []; updateCount(); renderCart(); };
+
+    $("mClose").onclick = closeAll;
+    function closeLb() { $("lbOverlay").classList.remove("open"); }
+    $("lbClose").onclick = closeLb;
+    [$("modalOverlay"), $("cartOverlay")].forEach(o => o.addEventListener("click", e => { if (e.target === o) closeAll(); }));
+    $("lbOverlay").addEventListener("click", e => { if (e.target !== $("lbImg")) closeLb(); });
+    document.addEventListener("keydown", e => { if (e.key !== "Escape") return; if ($("lbOverlay").classList.contains("open")) closeLb(); else closeAll(); });
+
+    renderFilters(); renderGrid();
+  </script>
+</body>
+
+</html>
